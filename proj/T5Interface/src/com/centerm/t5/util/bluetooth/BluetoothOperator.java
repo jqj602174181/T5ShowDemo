@@ -17,17 +17,37 @@ public class BluetoothOperator {
 	private CheckBluetoothConnectThread checkBluetoothConnectThread;
 	private String remoteMac;
 	private boolean isConnect;
-	
+
 	private Context context;
+
+	private static BluetoothOperator instance;
+
 	/*
 	 * 用于连接蓝牙与判断蓝牙通信是否连接着
 	 */
-	
-	public BluetoothOperator(Handler handler,Context context)
-	{
-		this.context = context;
-		this.operatorHandler = handler;
+
+	private BluetoothOperator(){
+
 	}
+
+	public static BluetoothOperator getInstance(){
+		if(instance == null){
+			instance = new BluetoothOperator();
+		}
+		return instance;
+	}
+
+	public void setHandler(Handler handler){
+		this.operatorHandler = handler;
+		if(operatorDataThread != null){
+			operatorDataThread.setHandler(operatorHandler);
+		}
+	}
+
+	public void setContext(Context context){
+		this.context = context;
+	}
+
 	public boolean getIsConnect()
 	{
 		return isConnect;
@@ -43,7 +63,7 @@ public class BluetoothOperator {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//	CommService.getInstance().switchDevice(CommService.BLUETOOTH);
+			//	CommService.getInstance().switchDevice(CommService.BLUETOOTH);
 			if(CommService.getInstance().isConnect())
 			{
 				Log.e( "Dev","close last connect");
@@ -55,17 +75,17 @@ public class BluetoothOperator {
 				sendHandlerMsg(DeviceOperatorData.CONNECTFAIL);
 				return;
 			}
-		
+
 			isConnect = CommService.getInstance().connectDevice();
 			if(!isConnect){
 				/*
 				 * 连接失败
 				 */
-				
+
 				Log.e("Dev","CheckBluetoothConnectThread: connect fail" );
-			    sendHandlerMsg(DeviceOperatorData.CONNECTFAIL);
+				sendHandlerMsg(DeviceOperatorData.CONNECTFAIL);
 				return ;
-				
+
 			}else{
 				/*
 				 * 连接成功
@@ -79,34 +99,34 @@ public class BluetoothOperator {
 			operatorDataThread = new OperatorDataThread(operatorHandler);
 			operatorDataThread.start();
 
-			
+
 			checkConnect();
 			CommService.getInstance().closeDevice();
-			
+
 		}
-		
-	
-		
+
+
+
 		/*
 		 * 检测 是否有连接着
 		 */
 		private void checkConnect()
 		{
-			
+
 			while (!isStop) {
 				isConnect = CommService.getInstance().isConnect(); 
 				int status = CommService.getInstance().getState();
-			
+
 				if(!isConnect||status != 0 ){
 					quitBluetooth();
 					Log.e( "Dev", "checkConnect: isConnect =" +isConnect + ",status" + status );
 					if(!isStop){
 						operatorHandler.sendEmptyMessage(DeviceOperatorData.CONNECTCANCEL);
 					}
-			
+
 					break;
 				}
-			
+
 				try {
 					sleep(100);
 				} catch (InterruptedException e) {
@@ -121,77 +141,77 @@ public class BluetoothOperator {
 			isStop = true;
 			super.interrupt();
 			CommService.getInstance().setObject(true);
-		
+
 			isConnect = false;
 		}
-		
-		
+
+
 		public void quitCheckThread()
 		{
 			interrupt();
 			if(operatorDataThread!=null)
 				operatorDataThread.quitThread();
-			
+
 		}
-		
+
 	}
-/*
- * 
- */
-public void startBluetooth()
-{
-	quitBluetooth();
-	checkBluetoothConnectThread = new CheckBluetoothConnectThread();
-	checkBluetoothConnectThread.start();
+	/*
+	 * 
+	 */
+	public void startBluetooth()
+	{
+		quitBluetooth();
+		checkBluetoothConnectThread = new CheckBluetoothConnectThread();
+		checkBluetoothConnectThread.start();
 
-}
-
-public void quitBluetooth()
-{
-	if(checkBluetoothConnectThread!=null){
-		checkBluetoothConnectThread.quitCheckThread();
-		checkBluetoothConnectThread = null;
 	}
-}
 
-
-/*
- * 用于向主线程发送传输结果 
- */
-private void sendHandlerMsg(int msg)
-{
-	if(operatorHandler!=null){
-		operatorHandler.sendEmptyMessage(msg);
+	public void quitBluetooth()
+	{
+		if(checkBluetoothConnectThread!=null){
+			checkBluetoothConnectThread.quitCheckThread();
+			checkBluetoothConnectThread = null;
+		}
 	}
-}
-/*
- * 
- */
-public void sendMessage(int msg,int style)
-{
-	if(!isConnect)return;
-	  operatorDataThread.sendMessage(msg,style);
-}
-/*
- * 
- */
-public void sendMessage(int msg,int style,Object object)
-{
-	if(!isConnect)return;
-	  operatorDataThread.sendMessage(msg,style,object);
-}
-/*
- * 
- */
-public void sendMessage(int msg)
-{
-	if(!isConnect)return;
-	  operatorDataThread.sendMessage(msg);
-}
 
-public void setBluetoothMac(String mac)
-{
-	this.remoteMac = mac;
-}
+
+	/*
+	 * 用于向主线程发送传输结果 
+	 */
+	private void sendHandlerMsg(int msg)
+	{
+		if(operatorHandler!=null){
+			operatorHandler.sendEmptyMessage(msg);
+		}
+	}
+	/*
+	 * 
+	 */
+	public void sendMessage(int msg,int style)
+	{
+		if(!isConnect)return;
+		operatorDataThread.sendMessage(msg,style);
+	}
+	/*
+	 * 
+	 */
+	public void sendMessage(int msg,int style,Object object)
+	{
+		if(!isConnect)return;
+		operatorDataThread.sendMessage(msg,style,object);
+	}
+	/*
+	 * 
+	 */
+	public void sendMessage(int msg)
+	{
+		if(!isConnect)return;
+		operatorDataThread.sendMessage(msg);
+	}
+
+	public void setBluetoothMac(String mac)
+	{
+		this.remoteMac = mac;
+	}
 
 }

@@ -2,125 +2,123 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-<ScrollView
-    android:layout_width="0dp"
-    android:layout_weight="0.8"
+    android:orientation="horizontal" >
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-             android:layout_height="wrap_content"
-    >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_weight="0.8" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
-            <TextView
-                style="@style/commm_text_style1"
-                android:text="通信方式  :" />
-
-          <RadioGroup
-                android:id="@+id/rg_conn"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/comm_marginLeft"
-                android:checkedButton="@+id/b1_conn"
                 android:orientation="horizontal" >
 
-                <RadioButton
-                    android:id="@+id/bt_conn"
-                    style="@style/commm_text_style"
-                    android:layout_marginRight="20dp"
-                    android:checked="true"
-                    android:text="蓝牙" />
+                <TextView
+                    style="@style/commm_text_style1"
+                    android:text="通信方式  :" />
 
-                <RadioButton
-                    android:id="@+id/hid_conn"
-                    style="@style/commm_text_style"
-                    android:text="USB HID" />
-            </RadioGroup>
-        </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rg_conn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/comm_marginLeft"
+                    android:checkedButton="@+id/b1_conn"
+                    android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/comm_marginTop"
-            android:orientation="horizontal" >
+                    <RadioButton
+                        android:id="@+id/bt_conn"
+                        style="@style/commm_text_style"
+                        android:layout_marginRight="20dp"
+                        android:checked="true"
+                        android:text="蓝牙" />
 
-            <TextView
-                style="@style/commm_text_style1"
-                android:text="USB状态  :" />
+                    <RadioButton
+                        android:id="@+id/hid_conn"
+                        style="@style/commm_text_style"
+                        android:text="USB HID" />
+                </RadioGroup>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvUSBStat"
-                style="@style/commm_text_style"
-                android:layout_marginLeft="@dimen/comm_marginLeft"
-                android:text="未检测" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/comm_marginTop"
-            android:orientation="horizontal" >
-
-            <TextView
-                style="@style/commm_text_style1"
-                android:text="连接状态  :" />
-
-            <TextView
-                android:id="@+id/tvBTStat"
-                style="@style/commm_text_style"
-                android:layout_marginLeft="@dimen/comm_marginLeft"
-                android:text="未检测" />
-        </LinearLayout>
-
-        <RelativeLayout
-            
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:visibility="gone"
-            android:layout_marginTop="@dimen/comm_marginTop"
-            android:orientation="horizontal" >
-
-            <TextView
-                style="@style/commm_text_style1"
-                android:text="蓝牙MAC :" />
-
-            <EditText
-                android:id="@+id/etMac"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="@dimen/comm_marginLeft"
-                android:background="@drawable/rounded_edittext_states"
-                android:inputType="text"
-                android:layout_marginRight="10dp"
-				android:text="@string/macAddr"
-                android:textSize="25sp" />
-				
-        <Button 
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:id="@+id/btnMore"
-            android:layout_marginRight="10dp"
-            
-            />
-        </RelativeLayout>
- <Button
-                 android:layout_marginTop="@dimen/comm_marginTop"
-                android:layout_marginLeft="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/comm_marginTop"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    style="@style/commm_text_style1"
+                    android:text="USB状态  :" />
+
+                <TextView
+                    android:id="@+id/tvUSBStat"
+                    style="@style/commm_text_style"
+                    android:layout_marginLeft="@dimen/comm_marginLeft"
+                    android:text="未检测" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/comm_marginTop"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/commm_text_style1"
+                    android:text="连接状态  :" />
+
+                <TextView
+                    android:id="@+id/tvBTStat"
+                    style="@style/commm_text_style"
+                    android:layout_marginLeft="@dimen/comm_marginLeft"
+                    android:text="未检测" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/comm_marginTop"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    style="@style/commm_text_style1"
+                    android:text="蓝牙MAC :" />
+
+                <EditText
+                    android:id="@+id/etMac"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/comm_marginLeft"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_edittext_states"
+                    android:inputType="text"
+                    android:text="@string/macAddr"
+                    android:textSize="25sp" />
+
+                <Button
+                    android:id="@+id/btnMore"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp" />
+            </RelativeLayout>
+
+            <Button
                 android:id="@+id/bt_conn_open"
-              
                 style="@style/smallButton"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="@dimen/comm_marginTop"
                 android:text="连接" />
-       
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

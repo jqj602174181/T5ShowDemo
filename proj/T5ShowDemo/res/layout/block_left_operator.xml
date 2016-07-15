@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:weightSum="9" >
 
-    <View
+    <!--
+  <View
         style="@style/lineStyle"
         android:layout_marginTop="10dp" />
   <LinearLayout
@@ -22,9 +23,9 @@
             android:id="@+id/btn_connect"
             style="@style/left_operator_btn_style"
             android:text="@string/connect" />
-    </LinearLayout>
-    
-   
+    </LinearLayout>
+    -->
+
     <View style="@style/lineStyle" />
 
     <LinearLayout
@@ -61,7 +62,6 @@
 
     <LinearLayout
         android:id="@+id/layout_finger"
-
         style="@style/left_operator_layout_style" >
 
         <ImageView
@@ -107,10 +107,10 @@
     </LinearLayout>
 
     <View style="@style/lineStyle" />
- <LinearLayout
+
+    <LinearLayout
         android:id="@+id/layout_key"
-        style="@style/left_operator_layout_style"
-       >
+        style="@style/left_operator_layout_style" >
 
         <ImageView
             style="@style/left_operator_img_style"
@@ -121,8 +121,7 @@
             style="@style/left_operator_btn_style"
             android:text="@string/key" />
     </LinearLayout>
-    
-  
+
     <View style="@style/lineStyle" />
 
 </LinearLayout>

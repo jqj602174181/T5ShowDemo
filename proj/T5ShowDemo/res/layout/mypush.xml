@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="800dp"
+    android:layout_height="600dp"
+    android:background="#dddddddd" >
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/close" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="700dp"
+        android:layout_height="500dp"
+        android:layout_below="@id/close"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="测试数据"
+        android:textColor="#ff0000"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -18,6 +18,11 @@ import android.util.Log;
 		operatorHandler = handler;
 		financialServer = new FinancialServer();
 	}
+	
+	public void setHandler(Handler handler){
+		operatorHandler = handler;
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
