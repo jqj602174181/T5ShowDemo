@@ -50,9 +50,11 @@
         <activity
             android:name="com.centerm.t5.t5showdemo.MyPushActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+
+        <service android:name="com.centerm.t5.socketserver.SocketServer" />
+        <!-- android:theme="@android:style/Theme.Dialog" -->
     </application>
 
 </manifest>

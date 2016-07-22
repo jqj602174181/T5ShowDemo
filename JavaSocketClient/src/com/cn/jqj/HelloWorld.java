@@ -5,7 +5,6 @@ import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,11 +23,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
+import com.cn.jqj.utils.DesUtil;
+import com.cn.jqj.utils.ErrorUtil;
+import com.cn.jqj.utils.MsgCreater;
+import com.cn.jqj.utils.StringUtil;
+
 public class HelloWorld{
 	static Button send;
 	static Button chooser;
 	static JTextField jf;
 	static JTextField jf2;
+	static JTextField jf3;
 
 	static String path = "C:/Users/Lenovo/Desktop/QQ截图20160715155558.png";
 	static FileInputStream is;
@@ -38,6 +43,9 @@ public class HelloWorld{
 
 		jf = new JTextField(25);
 		jf.setText("测试推送数据");
+
+		jf3 = new JTextField(15);
+		jf3.setText("192.168.112.100");
 
 		send = new Button("发送");
 		send.addActionListener(new ActionListener() {
@@ -57,9 +65,13 @@ public class HelloWorld{
 					}
 
 					try {
-						SocketAddress socketAddress = new InetSocketAddress("192.168.191.2", 3535);
+						String ip = jf3.getText().toString();
+						if(ip.equals("")){
+							ip = "192.168.112.100";
+						}
+						SocketAddress socketAddress = new InetSocketAddress(ip, 3535);
 						Socket client = new Socket();
-						client.connect(socketAddress, 5 * 1000);
+						client.connect(socketAddress, 10 * 1000);
 
 						ClientThread thread = new ClientThread(client, content);
 						thread.setFile(file);
@@ -116,45 +128,31 @@ public class HelloWorld{
 		JPanel jp2 = new JPanel();
 		jp2.add(jf2);
 		jp2.add(chooser);
-		frame.add(jp2);
+		//		frame.add(jp2);
 
 		JPanel jp3 = new JPanel();
 		jp3.add(send);
 
+		JPanel jp4 = new JPanel();
+		jp4.add(jf3);
+
 		frame.getContentPane().add(BorderLayout.NORTH,jp);
 		frame.getContentPane().add(BorderLayout.CENTER,jp2);
+		frame.getContentPane().add(BorderLayout.EAST,jp4);
 		frame.getContentPane().add(BorderLayout.SOUTH,jp3);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500, 150);
+		frame.setSize(600, 150);
 		frame.setLocation(600, 300);
 		frame.setVisible(true);
-	}
-
-	public static byte[] getBytes(String filePath){  
-		byte[] buffer = null;  
-		try {  
-			File file = new File(filePath);  
-			FileInputStream fis = new FileInputStream(file);  
-			ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);  
-			byte[] b = new byte[1000];  
-			int n;  
-			while ((n = fis.read(b)) != -1) {  
-				bos.write(b, 0, n);  
-			}  
-			fis.close();  
-			bos.close();  
-			buffer = bos.toByteArray();  
-		} catch (FileNotFoundException e) {  
-			e.printStackTrace();  
-		} catch (IOException e) {  
-			e.printStackTrace();  
-		}  
-		return buffer;  
 	}
 }
 
 class ClientThread implements Runnable{
+	protected final String CODING = "utf-8";
+	public byte work = 0x01;
+	public byte type = 0x01;//信息的头两个字节
+
 	Socket socket = null;
 	String content = null;
 	File file;
@@ -208,28 +206,87 @@ class ClientThread implements Runnable{
 		return true;
 	}
 
+	public boolean sendData(OutputStream out, String jsonStr, File file) throws Exception
+	{
+		byte[] data = jsonStr.getBytes(CODING);
+		data = DesUtil.trides_crypt(DesUtil.KEYBYTES, data);
+		String dataStr =  StringUtil.HexToStringA(data); 
+
+		data = MsgCreater.createMsg(work,type,dataStr, getBytes(file));
+
+		int success = sendMessage(out, data, data.length);
+		if(success==ErrorUtil.ERR_OPEN){
+			return false;
+		}
+		return true;
+	}
+
+	public byte[] getBytes(File file){  
+		byte[] buffer = null;  
+		try {  
+			FileInputStream fis = new FileInputStream(file);  
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);  
+			byte[] b = new byte[1000];  
+			int n;  
+			while ((n = fis.read(b)) != -1) {  
+				bos.write(b, 0, n);  
+			}  
+			fis.close();  
+			bos.close();  
+			buffer = bos.toByteArray();  
+		} catch (FileNotFoundException e) {  
+			e.printStackTrace();  
+		} catch (IOException e) {  
+			e.printStackTrace();  
+		}  
+		return buffer;  
+	}
+
+	private int sendMessage(OutputStream out, byte[] buf, int length) {
+		if (out == null) {
+			return ErrorUtil.ERR_OPEN;
+		}
+
+		try {
+			out.write(buf, 0, length);
+			//			System.out.println("send msg " + length + " byte");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return ErrorUtil.ERR_SUCCESS;
+	}
+
 	/**
 	 * 发送数据到服务端
 	 * @param out
 	 * @return
 	 */
 	public boolean doWrite(OutputStream out){
+
+		String jsonStr = content;
 		try{
-			DataOutputStream dos = new DataOutputStream(out);
-			FileInputStream fis = new FileInputStream(file);
-			int length = 0;
-			byte[] sendBytes = new byte[1024];
-			while ((length = fis.read(sendBytes, 0, sendBytes.length)) > 0) {
-				dos.write(sendBytes, 0, length);
-				dos.flush();
-			}
-			if (dos != null)
-				dos.close();
-			if (fis != null)
-				fis.close();
-		}catch (IOException e) {
+			sendData(out, jsonStr, file);
+		}catch(Exception e){
 			e.printStackTrace();
-		} 
+		}
+
+		//		try{
+		//			DataOutputStream dos = new DataOutputStream(out);
+		//			FileInputStream fis = new FileInputStream(file);
+		//			int length = 0;
+		//			byte[] sendBytes = new byte[1024];
+		//			while ((length = fis.read(sendBytes, 0, sendBytes.length)) > 0) {
+		//				dos.write(sendBytes, 0, length);
+		//				dos.flush();
+		//			}
+		//			if (dos != null)
+		//				dos.close();
+		//			if (fis != null)
+		//				fis.close();
+		//		}catch (IOException e) {
+		//			e.printStackTrace();
+		//		} 
 		return true;
 	}
 

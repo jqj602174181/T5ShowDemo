@@ -27,8 +27,10 @@ public class MyPushActivity extends Activity {
 
 		Intent intent = getIntent();
 		String path = null;
+		String content = null;
 		if(intent != null){
 			path = intent.getStringExtra("path");
+			content = intent.getStringExtra("content");
 		}
 
 		image = (ImageView)findViewById(R.id.image);
@@ -42,12 +44,13 @@ public class MyPushActivity extends Activity {
 			}
 		});
 
-		init(path);
+		init(path, content);
 
 		MyApp.getInstance().list.add(this);
 	}
 
-	private void init(String path) {
+	private void init(String path, String content) {
 		image.setImageDrawable(Drawable.createFromPath(path));
+		text.setText(content);
 	}
 }
