@@ -40,16 +40,19 @@
         <activity
             android:name="com.centerm.t5.t5showdemo.BusinessActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.centerm.t5.t5showdemo.OpenCardActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.centerm.t5.t5showdemo.MyPushActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
 

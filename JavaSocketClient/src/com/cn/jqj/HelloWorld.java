@@ -35,7 +35,7 @@ public class HelloWorld{
 	static JTextField jf2;
 	static JTextField jf3;
 
-	static String path = "C:/Users/Lenovo/Desktop/QQ截图20160715155558.png";
+	static String headPath = "C:/Users/Lenovo/Desktop/head.png";
 	static FileInputStream is;
 
 	public static void main(String[] args){
@@ -45,7 +45,7 @@ public class HelloWorld{
 		jf.setText("测试推送数据");
 
 		jf3 = new JTextField(15);
-		jf3.setText("192.168.112.100");
+		jf3.setText("192.168.191.2");
 
 		send = new Button("发送");
 		send.addActionListener(new ActionListener() {
@@ -59,22 +59,24 @@ public class HelloWorld{
 						return;
 					}
 
-					File file = new File(path);
+					File file = new File(headPath);
 					if(!file.exists()){
 						return;
 					}
 
+					File portrai = new File("C:/Users/Lenovo/Desktop/head.png");
+
 					try {
 						String ip = jf3.getText().toString();
 						if(ip.equals("")){
-							ip = "192.168.112.100";
+							ip = "192.168.191.2";
 						}
 						SocketAddress socketAddress = new InetSocketAddress(ip, 3535);
 						Socket client = new Socket();
 						client.connect(socketAddress, 10 * 1000);
 
 						ClientThread thread = new ClientThread(client, content);
-						thread.setFile(file);
+						thread.setFile(portrai, file);
 						new Thread(thread).start();
 					} catch (UnknownHostException e1) {
 						e1.printStackTrace();
@@ -115,7 +117,7 @@ public class HelloWorld{
 						System.out.println("文件夹:"+file.getAbsolutePath());  
 					}else if(file.isFile()){  
 						jf2.setText(file.getAbsolutePath());
-						path = file.getAbsolutePath();
+						headPath = file.getAbsolutePath();
 						System.out.println("文件:"+file.getAbsolutePath());  
 					}  
 				}
@@ -155,6 +157,7 @@ class ClientThread implements Runnable{
 
 	Socket socket = null;
 	String content = null;
+	File portrai;
 	File file;
 
 	public ClientThread(Socket socket, String content){
@@ -162,7 +165,8 @@ class ClientThread implements Runnable{
 		this.content = content;
 	}
 
-	public void setFile(File file){
+	public void setFile(File portrai, File file){
+		this.portrai = portrai;
 		this.file = file;
 	}
 
@@ -206,13 +210,18 @@ class ClientThread implements Runnable{
 		return true;
 	}
 
-	public boolean sendData(OutputStream out, String jsonStr, File file) throws Exception
+	public boolean sendData(OutputStream out, String jsonStr, File portrai, File file) throws Exception
 	{
-		byte[] data = jsonStr.getBytes(CODING);
+		byte[] portraiByte = getBytes(portrai);
+		byte[] fileByte = getBytes(file);
+
+		String tempJsonStr = "{'assets':'10万','customlevel':'普通','idcard':'350121199903040598','name':'名字啊','risklevel':'低风险','telnum':'15883659841','portraitsize':'"+portraiByte.length+"','portraitname':'portrai.png','filesize':'"+fileByte.length+"','filename':'file.png'}";
+
+		byte[] data = tempJsonStr.getBytes(CODING);
 		data = DesUtil.trides_crypt(DesUtil.KEYBYTES, data);
 		String dataStr =  StringUtil.HexToStringA(data); 
 
-		data = MsgCreater.createMsg(work,type,dataStr, getBytes(file));
+		data = MsgCreater.createMsg(work,type,dataStr,portraiByte,fileByte);
 
 		int success = sendMessage(out, data, data.length);
 		if(success==ErrorUtil.ERR_OPEN){
@@ -266,7 +275,7 @@ class ClientThread implements Runnable{
 
 		String jsonStr = content;
 		try{
-			sendData(out, jsonStr, file);
+			sendData(out, jsonStr, portrai, file);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

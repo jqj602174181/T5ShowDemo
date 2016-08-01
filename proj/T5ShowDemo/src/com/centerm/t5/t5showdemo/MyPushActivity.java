@@ -12,8 +12,9 @@ import android.widget.TextView;
 
 public class MyPushActivity extends Activity {
 
-	private ImageView image;
-	private TextView text;
+	private ImageView portraiImage;
+	private ImageView fileImage;
+	private TextView username;
 	private Button close;
 
 	@Override
@@ -22,19 +23,21 @@ public class MyPushActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		this.setContentView(R.layout.mypush);
-
 		this.setFinishOnTouchOutside(false);
 
 		Intent intent = getIntent();
-		String path = null;
-		String content = null;
+		String portraiPath = null;
+		String filePath = null;
+		String userName = null;
 		if(intent != null){
-			path = intent.getStringExtra("path");
-			content = intent.getStringExtra("content");
+			portraiPath = intent.getStringExtra("portraiPath");
+			filePath = intent.getStringExtra("filePath");
+			userName = intent.getStringExtra("userName");
 		}
 
-		image = (ImageView)findViewById(R.id.image);
-		text = (TextView)findViewById(R.id.text);
+		portraiImage = (ImageView)findViewById(R.id.portraiImage);
+		fileImage = (ImageView)findViewById(R.id.fileImage);
+		username = (TextView)findViewById(R.id.username);
 		close = (Button)findViewById(R.id.close);
 		close.setOnClickListener(new View.OnClickListener() {
 
@@ -44,13 +47,14 @@ public class MyPushActivity extends Activity {
 			}
 		});
 
-		init(path, content);
+		init(portraiPath, filePath, userName);
 
 		MyApp.getInstance().list.add(this);
 	}
 
-	private void init(String path, String content) {
-		image.setImageDrawable(Drawable.createFromPath(path));
-		text.setText(content);
+	private void init(String portraiPath, String filePath, String userName) {
+		portraiImage.setImageDrawable(Drawable.createFromPath(portraiPath));
+		fileImage.setImageDrawable(Drawable.createFromPath(filePath));
+		username.setText(userName);
 	}
 }

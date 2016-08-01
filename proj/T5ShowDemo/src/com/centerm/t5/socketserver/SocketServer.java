@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;  
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.centerm.t5.socketclient.DesUtil;
@@ -145,6 +146,7 @@ public class SocketServer extends Service
 					//接收实际的数据
 					byte[] buffer = new byte[readLen];
 					int msglen = readMessage(in, buffer, readLen, 5);
+					Log.i("SocketServer", "msglen:" + msglen);
 					if( msglen == readLen ){
 						//判断内容是否有效
 						if( buffer[0] == msgType ){
@@ -159,17 +161,27 @@ public class SocketServer extends Service
 							byte[] encryptedData = StringUtil.StringToHexA(data);
 							byte[] plainData = DesUtil.trides_decrypt( DesUtil.KEYBYTES, encryptedData);
 							resContent = new String( plainData, 0, plainData.length);
-							Log.e("socket","resContent is "+resContent);
+							Log.e("socket","resContent is "+resContent); //json字符串
+
+							JSONObject object = new JSONObject(resContent);
+							String userName = object.getString("name"); //客户姓名
+							String portraitszie = object.getString("portraitsize"); //头像长度
+							String portraitname = object.getString("portraitname"); 
+							String fileszie = object.getString("filesize"); //图片长度
+							String filename = object.getString("filename"); 
+							
+							String path = "/mnt/internal_sd/jrz";
+							//头像数据解析
+							byte[] portraiImgByte = new byte[Integer.parseInt(portraitszie)];
+							System.arraycopy(buffer, 6+lenght, portraiImgByte, 0, Integer.parseInt(portraitszie));
+							System.out.println("头像图片长度：" + portraiImgByte.length);
+							byte2File(portraiImgByte, path, portraitname);
 
 							//图片数据解析
-							byte[] imgByte = new byte[buffer.length-lenght-7];
-							System.arraycopy(buffer, 6+lenght, imgByte, 0, buffer.length-lenght-7);
-
-							System.out.println("图片大小：" + imgByte.length);
-
-							String path = "/mnt/internal_sd/jrz";
-							String name = "jrz.png";
-							byte2File(imgByte, path, name);
+							byte[] fileImgByte = new byte[Integer.parseInt(fileszie)];
+							System.arraycopy(buffer, 6+lenght+Integer.parseInt(portraitszie), fileImgByte, 0, Integer.parseInt(fileszie));
+							System.out.println("文件图片长度：" + fileImgByte.length);
+							byte2File(fileImgByte, path, filename);
 
 							//							HashMap<String, String> map = new HashMap<String, String>();
 							//							map.put("content", resContent);
@@ -180,8 +192,9 @@ public class SocketServer extends Service
 
 								//发广播
 								Intent intent = new Intent(MyApp.ACTION);
-								intent.putExtra("content", resContent);
-								intent.putExtra("path", path+File.separator+name);
+								intent.putExtra("userName", userName);
+								intent.putExtra("portraiPath", path+File.separator+portraitname);
+								intent.putExtra("filePath", path+File.separator+filename);
 								sendBroadcast(intent);
 
 								//								if(handler != null){

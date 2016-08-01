@@ -87,11 +87,13 @@ public class MyApp extends Application {
 					activity.finish();
 				}
 
-				String path = intent.getStringExtra("path");
-				String content = intent.getStringExtra("content");
+				String portraiPath = intent.getStringExtra("portraiPath");
+				String filePath = intent.getStringExtra("filePath");
+				String userName = intent.getStringExtra("userName");
 				Intent mIntent = new Intent(MyApp.this, MyPushActivity.class);
-				mIntent.putExtra("path", path); //图片路径
-				mIntent.putExtra("content", content); //文字信息
+				mIntent.putExtra("portraiPath", portraiPath); //头像路径
+				mIntent.putExtra("filePath", filePath); //文件路径
+				mIntent.putExtra("userName", userName); //客户名字
 				mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				MyApp.this.startActivity(mIntent);
 			}

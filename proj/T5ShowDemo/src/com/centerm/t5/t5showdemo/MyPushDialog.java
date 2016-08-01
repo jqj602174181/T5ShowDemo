@@ -34,8 +34,8 @@ public class MyPushDialog extends Dialog {
 		this.addContentView(view, new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-		image = (ImageView)view.findViewById(R.id.image);
-		text = (TextView)view.findViewById(R.id.text);
+		image = (ImageView)view.findViewById(R.id.portraiImage);
+		text = (TextView)view.findViewById(R.id.username);
 		close = (Button)view.findViewById(R.id.close);
 
 		close.setOnClickListener(new View.OnClickListener() {
