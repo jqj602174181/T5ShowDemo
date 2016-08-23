@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import com.centerm.device.CommService;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.socketclient.JsonUtil;
 import com.centerm.t5.socketclient.MessageComm;
 import com.centerm.t5.socketclient.PinYin;
@@ -24,8 +25,10 @@ import com.centerm.util.financial.ICCardData;
 import com.centerm.util.financial.IDCardData;
 import com.centerm.util.financial.MsgCardData;
 import com.centerm.util.financial.PinData;
+import com.centerm.util.financial.SignData;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -92,6 +95,7 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 	private EditText editMsg; //磁卡
 
 	private Button passwordBtn;
+	private Button sign;
 	private EditText editPassword; //密码键盘
 
 	private RadioGroup rg;
@@ -105,6 +109,7 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 	private PinData pinData;
 	private FingerData fingerData;
 	private ICCardData icCardData;
+	private SignData signData;
 
 	private boolean isHaveIDInfo = false;
 
@@ -126,6 +131,7 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 		pinData = new PinData();
 		fingerData = new FingerData();
 		icCardData = new ICCardData();
+		signData = new SignData();
 
 		setHandler();
 		bluetoothOperator.setHandler(mainHandler);
@@ -162,6 +168,7 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 		editPassword = (EditText)findViewById(R.id.EDIT_Password);
 		rg = (RadioGroup)findViewById(R.id.RG_CARDPASS);
 		commitBtn = (Button)findViewById(R.id.BTN_Commit);
+		sign = (Button)findViewById(R.id.BTN_Sign);
 		//		fingerBtn = (Button)findViewById(R.id.BTN_ReadFinger);
 		//		editFinger = (EditText)findViewById(R.id.EDIT_Finger);
 
@@ -171,6 +178,7 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 		passwordBtn.setOnClickListener(this);
 		commitBtn.setOnClickListener(this);
 		rg.setOnCheckedChangeListener(this);
+		sign.setOnClickListener(this);
 		//		fingerBtn.setOnClickListener(this);
 	}
 
@@ -218,6 +226,12 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 			fingerData.style = 1; 
 			type = DeviceOperatorData.FINGER;
 			sendMessage(DeviceOperatorData.FINGER, fingerData, 15);
+			break;
+		case R.id.BTN_Sign: //启动签名
+			signData.style = 1;//设置手写签名调用方式
+			signData.timeOut = "60";
+			type =  DeviceOperatorData.SIGN;
+			sendMessage(DeviceOperatorData.SIGN, signData, 60);
 			break;
 		case R.id.BTN_Commit:
 			//二代证为空
@@ -401,6 +415,18 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 			//			if(fingerData.style==1){
 			//				editFinger.setText(builder.toString());
 			//			}
+		} else if(type == DeviceOperatorData.SIGN){ //签名
+			String[] dataList = (String[])data;
+			if(!dataList[0].equals("0")){
+				if(signData.style==1){
+					Toast.makeText(OpenCardActivity.this, "签名错误！", Toast.LENGTH_SHORT).show();
+					return;
+				}
+			}
+			String path = dataList[1];
+			Intent intent = new Intent(OpenCardActivity.this, MySignActivity.class);
+			intent.putExtra("path", path);
+			OpenCardActivity.this.startActivity(intent);
 		}
 	}
 

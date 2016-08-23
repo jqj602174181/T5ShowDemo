@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.example.commenlibary.Interface.CommenLibaryMessageOperator;
 
 public class SelectListAdapter extends ArrayAdapter<String>{

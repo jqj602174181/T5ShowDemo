@@ -1,15 +1,9 @@
 package com.centerm.t5.t5showdemo;
 
-
-
 import java.util.HashMap;
-import java.util.Set;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,11 +11,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.centerm.util.RetUtil;
 
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.t5showdemo.common.OnMessageListener;
 import com.centerm.t5.t5showdemo.ui.SureDialog;
 import com.centerm.t5.t5showdemo.ui.WaitDialog;
@@ -91,8 +84,6 @@ public class MainActivity extends Activity implements View.OnClickListener,OnMes
 	public final static String Device_Not_Connect_Msg = "通讯连接没有建立";
 	public final static String Recv_Error_Mess_Msg = "接收的报文格式错误";
 	public final static String Device_Connect_Broken_Msg = "通讯连接破坏";
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

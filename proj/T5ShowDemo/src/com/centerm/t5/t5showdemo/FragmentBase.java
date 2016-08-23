@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.util.common.CommonUtil;
 
 public abstract class FragmentBase extends Fragment implements OnClickListener{

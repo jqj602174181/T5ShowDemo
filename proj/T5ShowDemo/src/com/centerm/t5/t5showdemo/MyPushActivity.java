@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.centerm.t5.jrz.t5showdemo.R;
 
 public class MyPushActivity extends Activity {
 
@@ -35,9 +36,9 @@ public class MyPushActivity extends Activity {
 			userName = intent.getStringExtra("userName");
 		}
 
-		portraiImage = (ImageView)findViewById(R.id.portraiImage);
+		//		portraiImage = (ImageView)findViewById(R.id.portraiImage);
 		fileImage = (ImageView)findViewById(R.id.fileImage);
-		username = (TextView)findViewById(R.id.username);
+		//		username = (TextView)findViewById(R.id.username);
 		close = (Button)findViewById(R.id.close);
 		close.setOnClickListener(new View.OnClickListener() {
 
@@ -52,9 +53,14 @@ public class MyPushActivity extends Activity {
 		MyApp.getInstance().list.add(this);
 	}
 
-	private void init(String portraiPath, String filePath, String userName) {
-		portraiImage.setImageDrawable(Drawable.createFromPath(portraiPath));
+	private void init(String filePath, String userName) {
 		fileImage.setImageDrawable(Drawable.createFromPath(filePath));
 		username.setText(userName);
+	}
+
+	private void init(String portraiPath, String filePath, String userName) {
+		//		portraiImage.setImageDrawable(Drawable.createFromPath(portraiPath));
+		fileImage.setImageDrawable(Drawable.createFromPath(filePath));
+		//		username.setText(userName);
 	}
 }

@@ -1,5 +1,6 @@
 package com.centerm.t5.t5showdemo;
 
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.t5showdemo.common.OnMessageListener;
 import com.centerm.t5.t5showdemo.ui.SureDialog;
 import com.centerm.t5.util.bluetooth.BluetoothOperator;

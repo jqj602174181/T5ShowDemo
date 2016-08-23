@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.centerm.t5.t5showdemo"
+    package="com.centerm.t5.jrz.t5showdemo"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -53,6 +53,13 @@
             android:name="com.centerm.t5.t5showdemo.MyPushActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.centerm.t5.t5showdemo.MySignActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.Dialog"
             android:windowSoftInputMode="stateHidden" >
         </activity>
 

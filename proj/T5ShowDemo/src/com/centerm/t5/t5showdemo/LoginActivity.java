@@ -1,8 +1,9 @@
 package com.centerm.t5.t5showdemo;
 
+import java.io.File;
 
 import com.centerm.device.CommService;
-import com.centerm.t5.socketclient.PinYin;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.t5showdemo.common.OnMessageListener;
 import com.centerm.t5.t5showdemo.ui.WaitDialog;
 import com.centerm.t5.util.bluetooth.BluetoothOperator;
@@ -13,6 +14,7 @@ import com.centerm.util.financial.FingerData;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;

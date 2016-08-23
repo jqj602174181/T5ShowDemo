@@ -29,6 +29,7 @@
             android:background="@drawable/edit_white_back"
             android:hint="请输入帐号"
             android:paddingLeft="5dp"
+            android:singleLine="true"
             android:textSize="25sp" />
 
         <EditText
@@ -41,6 +42,7 @@
             android:hint="请输入密码"
             android:inputType="textPassword"
             android:paddingLeft="5dp"
+            android:singleLine="true"
             android:textSize="25sp" />
 
         <Button
@@ -57,7 +59,7 @@
 
     <LinearLayout
         android:id="@+id/connection_Block"
-        android:layout_width="800dp"
+        android:layout_width="850dp"
         android:layout_height="60dp"
         android:layout_below="@+id/login_Block"
         android:layout_centerHorizontal="true"

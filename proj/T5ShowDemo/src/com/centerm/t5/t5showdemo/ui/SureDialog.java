@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.t5showdemo.common.OnMessageListener;
 
 public class SureDialog extends PopupWindow implements OnClickListener{

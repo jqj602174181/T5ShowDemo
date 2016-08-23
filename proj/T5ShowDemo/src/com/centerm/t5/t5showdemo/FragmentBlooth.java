@@ -22,7 +22,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import com.centerm.device.CommService;
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.util.dev.DeviceOperatorData;
 import com.example.commenlibary.Interface.CommenLibaryMessageOperator;
 import com.example.commenlibary.ui.ListDialog.SelectListDialog;

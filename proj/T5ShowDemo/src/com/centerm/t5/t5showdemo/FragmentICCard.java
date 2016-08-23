@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.centerm.t5.util.dev.DeviceOperatorData;
 import com.centerm.util.financial.ICCardData;
 

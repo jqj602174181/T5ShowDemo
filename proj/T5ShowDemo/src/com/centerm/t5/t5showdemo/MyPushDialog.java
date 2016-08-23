@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.centerm.t5.jrz.t5showdemo.R;
 
 public class MyPushDialog extends Dialog {
 
@@ -34,8 +35,8 @@ public class MyPushDialog extends Dialog {
 		this.addContentView(view, new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-		image = (ImageView)view.findViewById(R.id.portraiImage);
-		text = (TextView)view.findViewById(R.id.username);
+//		image = (ImageView)view.findViewById(R.id.portraiImage);
+//		text = (TextView)view.findViewById(R.id.username);
 		close = (Button)view.findViewById(R.id.close);
 
 		close.setOnClickListener(new View.OnClickListener() {

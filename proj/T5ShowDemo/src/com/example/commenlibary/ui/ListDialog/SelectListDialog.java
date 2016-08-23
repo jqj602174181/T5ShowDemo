@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
-import com.centerm.t5.t5showdemo.R;
+import com.centerm.t5.jrz.t5showdemo.R;
 import com.example.commenlibary.Interface.CommenLibaryMessageOperator;
 
 public class SelectListDialog extends PopupWindow{

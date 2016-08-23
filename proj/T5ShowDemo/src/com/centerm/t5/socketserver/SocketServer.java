@@ -22,6 +22,7 @@ import com.centerm.t5.t5showdemo.MyApp;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -135,7 +136,7 @@ public class SocketServer extends Service
 			}
 		}
 
-		private void doRead2(InputStream in){
+		private void doRead2(InputStream in){ //有照片数据的解析
 			try{
 				//读取数据包长度
 				byte[] dataByte = new byte[4];
@@ -145,7 +146,7 @@ public class SocketServer extends Service
 
 					//接收实际的数据
 					byte[] buffer = new byte[readLen];
-					int msglen = readMessage(in, buffer, readLen, 5);
+					int msglen = readMessage(in, buffer, readLen, 15);
 					Log.i("SocketServer", "msglen:" + msglen);
 					if( msglen == readLen ){
 						//判断内容是否有效
@@ -169,8 +170,8 @@ public class SocketServer extends Service
 							String portraitname = object.getString("portraitname"); 
 							String fileszie = object.getString("filesize"); //图片长度
 							String filename = object.getString("filename"); 
-							
-							String path = "/mnt/internal_sd/jrz";
+
+							String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 							//头像数据解析
 							byte[] portraiImgByte = new byte[Integer.parseInt(portraitszie)];
 							System.arraycopy(buffer, 6+lenght, portraiImgByte, 0, Integer.parseInt(portraitszie));
@@ -216,6 +217,75 @@ public class SocketServer extends Service
 				e.printStackTrace();
 			}
 		}
+
+		//		private void doRead2(InputStream in){ //没有照片数据
+		//			try{
+		//				//读取数据包长度
+		//				byte[] dataByte = new byte[4];
+		//				int readlen  = readMessage(in, dataByte, 4, 5 );//先读取头四个字节，来计算接下来要读的长度
+		//				if( readlen == 4 ){//读取成功
+		//					int readLen = StringUtil.bytesToIntByBigEndian(dataByte, 0);//转为int
+		//
+		//					//接收实际的数据
+		//					byte[] buffer = new byte[readLen];
+		//					int msglen = readMessage(in, buffer, readLen, 15);
+		//					Log.i("SocketServer", "msglen:" + msglen);
+		//					if( msglen == readLen ){
+		//						//判断内容是否有效
+		//						if( buffer[0] == msgType ){
+		//							byte[] lengthByte = new byte[4];
+		//							lengthByte[0] = buffer[2];
+		//							lengthByte[1] = buffer[3];
+		//							lengthByte[2] = buffer[4];
+		//							lengthByte[3] = buffer[5];
+		//							int lenght = StringUtil.bytesToIntByBigEndian(lengthByte, 0);//信息长度
+		//							//取出内容，并解密
+		//							String data = new String( buffer, 6, lenght );//舍去2个类型字节,信息长度4个字节和校验字节	
+		//							byte[] encryptedData = StringUtil.StringToHexA(data);
+		//							byte[] plainData = DesUtil.trides_decrypt( DesUtil.KEYBYTES, encryptedData);
+		//							resContent = new String( plainData, 0, plainData.length);
+		//							Log.e("socket","resContent is "+resContent); //json字符串
+		//
+		//							JSONObject object = new JSONObject(resContent);
+		//							String userName = object.getString("name"); //客户姓名
+		//							String fileszie = object.getString("filesize"); //图片长度
+		//							String filename = object.getString("filename"); 
+		//
+		//							String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+		//
+		//							//图片数据解析
+		//							byte[] fileImgByte = new byte[Integer.parseInt(fileszie)];
+		//							System.arraycopy(buffer, 6+lenght, fileImgByte, 0, Integer.parseInt(fileszie));
+		//							System.out.println("文件图片长度：" + fileImgByte.length);
+		//							byte2File(fileImgByte, path, filename);
+		//							if( buffer[1] == subType ){//正确
+		//								errorinfo = "";
+		//
+		//								//发广播
+		//								Intent intent = new Intent(MyApp.ACTION);
+		//								intent.putExtra("userName", userName);
+		//								intent.putExtra("filePath", path+File.separator+filename);
+		//								sendBroadcast(intent);
+		//
+		//								//								if(handler != null){
+		//								//									//通知展示
+		//								//									Message msg = new Message();
+		//								//									msg.obj = map;
+		//								//									handler.sendMessage(msg);
+		//								//								}
+		//							}
+		//							else if( buffer[1] == SUBTYPE_EXCEPTION  ){//异常
+		//								JSONObject jsexception = new JSONObject(resContent);
+		//								Log.e( TAG_LOG, "exception:" + jsexception.getString( "exception" ));
+		//								errorinfo = jsexception.getString( "exception" );
+		//							}
+		//						}
+		//					}
+		//				}
+		//			}catch(Exception e){
+		//				e.printStackTrace();
+		//			}
+		//		}
 
 		public int readMessage(InputStream in, byte[] buf, int len, int timeout) {
 
@@ -324,7 +394,7 @@ public class SocketServer extends Service
 		try  
 		{  
 			File dir = new File(filePath);  
-			if (!dir.exists() && dir.isDirectory())  
+			if (!dir.exists())  
 			{  
 				dir.mkdirs();  
 			}  
