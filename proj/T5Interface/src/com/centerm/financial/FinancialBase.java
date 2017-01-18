@@ -1,8 +1,5 @@
 package com.centerm.financial;
 
-import org.apache.http.util.ByteArrayBuffer;
-
-
 import android.R.integer;
 import android.util.Log;
 

@@ -35,6 +35,6 @@
     <string name="miyao2">密钥2:</string>
     <string name="miyao3">密钥3:</string>
     
-    <string name="unknow_idcardinfo">姓名：未知　　拼音：未知\n性别：未知　　民族：未知　　出生日期：未知\n发证机关：未知　　证件到期日：未知\n身份证号：未知\n地址：未知</string>
+    <string name="unknow_idcardinfo">姓名：未知　　拼音：未知\n性别：未知　　民族：未知　　出生日期：未知\n发证机关：未知　　\n证件到期日：未知\n身份证号：未知\n地址：未知</string>
 
 </resources>

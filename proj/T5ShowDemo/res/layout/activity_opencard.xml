@@ -18,8 +18,8 @@
         <include
             android:id="@+id/FRAGMENT_IDCARDINFO"
             android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            android:layout_marginLeft="40dp"
+            android:layout_height="160dp"
+            android:layout_marginLeft="20dp"
             layout="@layout/block_idcardinfo_reread" />
 
         <!-- 分隔线 -->
@@ -27,14 +27,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/page_space_line" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="230dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <EditText
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -146,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -166,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             android:visibility="gone" >
 

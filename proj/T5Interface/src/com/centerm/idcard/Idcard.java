@@ -1,12 +1,16 @@
 package com.centerm.idcard;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 
 
 import android.R.array;
 import android.R.integer;
 import android.app.LocalActivityManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 
@@ -351,7 +355,21 @@ public class Idcard extends FinancialBase {
 	    System.arraycopy(path.getBytes(), 0,HeadDir , 0, path.getBytes().length);
 		
 		Log.e(TAG, "CT_SaveHeadImg£ºpath =  "+ path);
-		nRet = SaveHeadImg(HeadDir , szData,  cardId);
+//		nRet = SaveHeadImg(HeadDir , szData,  cardId);
+		
+		try{
+			Bitmap bitmap = BitmapFactory.decodeByteArray(HeadDir, 0, HeadDir.length);
+			ByteArrayOutputStream imageByteArray = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 50, imageByteArray);
+			byte[] imageData = imageByteArray.toByteArray();
+
+			FileOutputStream fileOutputStream = new FileOutputStream(path);
+			fileOutputStream.write(imageData);
+			fileOutputStream.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		return  nRet;
 		
 	}
@@ -726,10 +744,6 @@ public class Idcard extends FinancialBase {
 		
 		return dataList;
 	}
-
-	
-
-	
 	
 	@Override
 	public byte[] getFinancialOpenCommad() {

@@ -119,6 +119,8 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 
 	TreeMap<String, String> map = new TreeMap<String, String>();
 
+	private final String str = "姓名：未知　　拼音：未知\n性别：未知　　民族：未知　　出生日期：未知\n发证机关：未知　　\n证件到期日：未知\n身份证号：未知\n地址：未知";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -186,17 +188,22 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.BTN_READIDCARD: //读身份证
+			tv_person_info.setText(str);
+			iv_photo.setImageBitmap(null);
+
 			idCardData.style = 2;
 			idCardData.timeOut = "15";
-			type = DeviceOperatorData.IDCARD;
-			sendMessage(DeviceOperatorData.IDCARD, idCardData, 15);
+			type = DeviceOperatorData.JRZIDCARD;
+			sendMessage(DeviceOperatorData.JRZIDCARD, idCardData, 15);
 			break;
 		case R.id.BTN_ReadMsg: //读取磁卡
+			editMsg.setText("");
 			msgCardData.timeOut = "15";
-			type = DeviceOperatorData.MAGCARD1;
-			sendMessage(DeviceOperatorData.MAGCARD1, msgCardData, 15);
+			type = DeviceOperatorData.JRZMAGCARD;
+			sendMessage(DeviceOperatorData.JRZMAGCARD, msgCardData, 15);
 			break;
 		case R.id.BTN_ReadPassword: //密码键盘
+			editPassword.setText("");
 			pinData.timeOut = "15";	
 			pinData.style 		= 1;
 			pinData.iEncryType 	= 1; //不加密
@@ -206,20 +213,21 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 			sendMessage(DeviceOperatorData.KEYPAD, pinData, 15);
 			break;
 		case R.id.BTN_ReadICCard: //读IC卡
+			editIc.setText("");
 			if(iIcFlag == 1){
 				icCardData.timeOut = "15";
 				icCardData.cardStyle = iIcFlag;
 				icCardData.style = IC_INFO;
 				icCardData.tag = "A";
-				type =  DeviceOperatorData.ICCARD1;
-				sendMessage(DeviceOperatorData.ICCARD1, icCardData, 15);
+				type =  DeviceOperatorData.JRZICCARD;
+				sendMessage(DeviceOperatorData.JRZICCARD, icCardData, 15);
 			}else if(iIcFlag == 2){
 				icCardData.timeOut = "15";
 				icCardData.cardStyle = iIcFlag;
 				icCardData.style = IC_INFO;
 				icCardData.tag = "A";
-				type =  DeviceOperatorData.ICCARD1;
-				sendMessage(DeviceOperatorData.ICCARD1, icCardData, 15);
+				type =  DeviceOperatorData.JRZICCARD;
+				sendMessage(DeviceOperatorData.JRZICCARD, icCardData, 15);
 			}
 			break;
 		case R.id.BTN_ReadFinger: //读指纹仪特征
@@ -325,8 +333,8 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 					closeWaitDialog();
 					break;
 				case DeviceOperatorData.CONNECTSUCCESS://设备连接成功
-					waitDialog.setText(readWait);
-					closeWaitDialog();
+					//					waitDialog.setText(readWait);
+					//					closeWaitDialog();
 					break;
 				case DeviceOperatorData.NODEVICE://没有设备
 					closeWaitDialog();
@@ -355,17 +363,23 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 		if(type == -1){
 			return;
 		}
-		if(type == DeviceOperatorData.IDCARD){
-			String[] informations = (String[])data;
-			setInformation(informations);
-		}else if(type == DeviceOperatorData.MAGCARD1){
-			String[] strList = (String[])data;
-			if(strList[0].equals("0")){
-				String[] strList1 = strList[1].split("#");
-				strList1 = strList1[0].split("=");
-				editMsg.setText(strList1[0]);
-			}else{
-				editMsg.setText(getErrorMsg(strList[1]));
+		if(type == DeviceOperatorData.JRZIDCARD){
+			try{
+				byte[] result = (byte[])data;
+				JSONObject value = new JSONObject(new String(result));
+				setInformation(value);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else if(type == DeviceOperatorData.JRZMAGCARD){
+			try{
+				String str = new String((byte[])data);
+				JSONObject object = new JSONObject(str);
+				String result = object.getString("data");
+				String value = result.substring(0, result.indexOf("="));
+				editMsg.setText(value);
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}else if(type == DeviceOperatorData.KEYPAD){
 			String [] dataList = (String[])data;
@@ -382,15 +396,14 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 					}
 				}
 			}
-		}else if(type == DeviceOperatorData.ICCARD1){
-			String[] dataList = (String[])data;
-			String result = null;
-			if(!dataList[0].equals("0")){
-				result = getErrorMsg(dataList[1]);
+		}else if(type == DeviceOperatorData.JRZICCARD){
+			try{
+				String str = new String((byte[])data);
+				JSONObject object = new JSONObject(str);
+				String result = object.getString("data");
 				editIc.setText(result);
-			}else{
-				result = dataList[2];
-				editIc.setText(result.substring(4));
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}else if(type == DeviceOperatorData.FINGER){
 			//			String[] dataList =(String[])data;
@@ -508,48 +521,44 @@ public class OpenCardActivity extends Activity implements View.OnClickListener, 
 
 	}
 
-	private void setInformation(String[] strList)
+	private void setInformation(JSONObject value)
 	{
-		if(strList!=null){
-			String str = "姓名：%s　　拼音：%s\n性别：%s　　民族：%s　　出生日期：%s\n发证机关：%s　　证件到期日：%s\n身份证号：%s\n地址：%s";
-			if(!strList[0].trim().equals("0")){
-				str = String.format(str, getErrorMsg(strList[1]), "未知","未知", "未知", "未知", "未知", "未知", "未知", "未知");
+		try{
+			if(value!=null){
+				String str = "姓名：%s　　拼音：%s\n性别：%s　　民族：%s　　出生日期：%s\n发证机关：%s　　\n证件到期日：%s\n身份证号：%s\n地址：%s";
+				String name = value.getString("name");
+				String sex = value.getString("sex");
+				String nation = value.getString("nation");
+				String num = value.getString("num");
+				String birthday = value.getString("birthday");
+				String address = value.getString("address");
+				String police = value.getString("issue");
+				String validstart = value.getString("validstart");
+				String validend = value.getString("validend");
+
+				String pinyin = PinYin.getPinYin(name);
+				str = String.format(str, name, pinyin, sex, nation, birthday, police, validstart+"-"+validend, num, address);
 				tv_person_info.setText(str);
-				if(headBitmap!=null&&!headBitmap.isRecycled()){
-					headBitmap.recycle();
-				}
-				return;
+
+				isHaveIDInfo = true;
+
+				String photo = value.getString("photo");
+				byte[] headByte = hexStringToBytes(photo);
+				Bitmap bitmap = BitmapFactory.decodeByteArray(headByte, 0, headByte.length);
+				iv_photo.setImageBitmap(bitmap);
 			}
-
-			//姓名拼音
-			String pinyin = PinYin.getPinYin(strList[1]);
-			str = String.format(str, strList[1], pinyin, strList[2], strList[3], strList[4], strList[7], strList[8], strList[6], strList[5]);
-			tv_person_info.setText(str);
-
-			if(map != null){
-				map.put("ID_type", "1");//表示公民身份证
-				map.put("name", strList[1]);
-				map.put("name_pinyin", pinyin);
-				map.put("sex", strList[2].equals("男")?"1":"2");
-				map.put("nation", strList[3]);
-				map.put("birthday", strList[4]);
-				map.put("police", strList[7]);
-				map.put("ID_deadline", strList[8]);
-				map.put("ID_num", strList[6]);
-				map.put("address", strList[5]);
-			}
-
-			isHaveIDInfo = true;
-
-			String imgPath = strList[9];
-
-			iv_photo.setImageBitmap(null);
-			if(headBitmap!=null&&!headBitmap.isRecycled()){
-				headBitmap.recycle();
-			}
-			headBitmap = BitmapFactory.decodeFile(imgPath);
-			iv_photo.setImageBitmap(headBitmap);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+	}
+
+	private byte[] hexStringToBytes(String orign){
+		int length = orign.length()/2;
+		byte[] result = new byte[length];
+		for(int i=0; i<length; i++){
+			result[i] = (byte) Integer.parseInt(orign.substring(i*2, i*2+2),16);
+		}
+		return result;
 	}
 
 	public String getErrorMsg(String key)

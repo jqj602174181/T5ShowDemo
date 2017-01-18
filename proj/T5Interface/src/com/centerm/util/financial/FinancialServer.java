@@ -5,13 +5,16 @@ import com.centerm.financial.FinancialBase;
 import com.centerm.finger.wellcom.IFpDevDriver;
 import com.centerm.iccard.IcCard;
 import com.centerm.idcard.Idcard;
+import com.centerm.jrz.JRZICcard;
+import com.centerm.jrz.JRZIDcard;
+import com.centerm.jrz.JRZMagcard;
 import com.centerm.pin.Pin;
 import com.centerm.rdcard.Rdcard;
 import com.centerm.sign.Sign;
 import com.centerm.t5.util.dev.DeviceOperatorData;
 
 public class FinancialServer {
-	
+
 	private int style = 1;
 	private Idcard idcard;
 	private Rdcard rdcard;
@@ -20,13 +23,16 @@ public class FinancialServer {
 	private FinancialBase current;
 	private Pin pin;
 	private IFpDevDriver ifpDevDriver;
+
+	private JRZIDcard mJrzIdcard;
+	private JRZICcard mJrzIccard;
+	private JRZMagcard mJrzMagcard;
+
 	public FinancialServer()
 	{
-		
-	
+
 	}
-	
-	
+
 	public int getStyle()
 	{
 		return style;
@@ -72,7 +78,7 @@ public class FinancialServer {
 			if(pin==null){
 				pin = new Pin();
 			}
-			
+
 			current = pin;
 			break;
 		case DeviceOperatorData.FINGER:
@@ -81,28 +87,43 @@ public class FinancialServer {
 			}
 			current = ifpDevDriver;
 			break;
-	
+
 		case DeviceOperatorData.IDCARD:
 			if(idcard==null)
 				idcard = new Idcard();
 			current = idcard;
 			break;
-
-		
 		case DeviceOperatorData.SIGN:
 			if(sign==null){
 				sign = new Sign();
 			}
-	
 			current= sign;
+			break;
+		case DeviceOperatorData.JRZIDCARD: //金融展 二代证
+			if(mJrzIdcard==null){
+				mJrzIdcard = new JRZIDcard();
+			}
+			current= mJrzIdcard;
+			break;
+		case DeviceOperatorData.JRZMAGCARD: //金融展 磁卡
+			if(mJrzMagcard==null){
+				mJrzMagcard = new JRZMagcard();
+			}
+			current= mJrzMagcard;
+			break;
+		case DeviceOperatorData.JRZICCARD: //金融展 ic卡
+			if(mJrzIccard==null){
+				mJrzIccard = new JRZICcard();
+			}
+			current= mJrzIccard;
 			break;
 		default:
 			break;
 		}
-		
-	//	currentFinancial.setStyle(styel);
+
+		//	currentFinancial.setStyle(styel);
 	}
-	
+
 	/*
 	 * 获取读到的数据,null表示获取失败
 	 */
@@ -112,5 +133,5 @@ public class FinancialServer {
 		object = current.getTestData(commData);
 		return object;
 	}
-	
+
 }
