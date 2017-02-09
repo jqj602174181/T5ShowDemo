@@ -27,13 +27,13 @@ public class Device_BT implements DeviceIntf
 	private  boolean isConnect = false;
 	protected boolean isQuitRead = false;
 	private boolean isExit = false;
-	
+
 
 	public Device_BT()
 	{
-		
+
 	}
-	
+
 	/*
 	 * 打开蓝牙设备
 	 */
@@ -46,7 +46,7 @@ public class Device_BT implements DeviceIntf
 			return  checkPairing();
 		}
 		return false;
-		
+
 	}
 
 	/*
@@ -60,42 +60,42 @@ public class Device_BT implements DeviceIntf
 		}else{
 			isConnect = sock.isConnected();
 		}
-		
+
 		return isConnect;
 	}
 	/*
 	 * 检测配对
 	 */
-private boolean  checkPairing()
-{
-	int checkTime = 60;
-	isExit = false;
-	while(!isExit)
+	private boolean  checkPairing()
 	{
-		
-		int status =getState();
-		if( status ==0  ){
-			//已经配对了
-			//if(operatorHandler!=null)
-			return true;
-		}else{
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		int checkTime = 60;
+		isExit = false;
+		while(!isExit)
+		{
+
+			int status =getState();
+			if( status ==0  ){
+				//已经配对了
+				//if(operatorHandler!=null)
+				return true;
+			}else{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			checkTime--;
+			if(checkTime==0){
+				return false;
 			}
 		}
-		checkTime--;
-		if(checkTime==0){
-			return false;
-		}
+		return false;
 	}
-	return false;
-}
-/*
- * 在配对和连接时有循环，当响应中断是要退出，在这里设置标志位
- */
+	/*
+	 * 在配对和连接时有循环，当响应中断是要退出，在这里设置标志位
+	 */
 	public void setObject(Object object)
 	{
 		isExit = (Boolean)object;
@@ -121,60 +121,60 @@ private boolean  checkPairing()
 	public boolean connectDevice()
 	{
 		UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+		try {
+			sock = remotedev.createRfcommSocketToServiceRecord(uuid);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(sock==null)return false;
+
+		int time = 10;
+		while (!isExit) {
+			if(isExit){
+				break;
+			}
 			try {
-				sock = remotedev.createRfcommSocketToServiceRecord(uuid);
+				sock.connect();
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(sock==null)return false;
-	
-			int time = 10;
-			while (!isExit) {
-				if(isExit){
-					break;
-				}
-				 try {
-					sock.connect();
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				 isConnect = sock.isConnected();
-			
-				 if(isConnect){
-					 break;
-				 }else{
-					 try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				 }
-				time--;
-				if(time==0){
-					isConnect = false;
-					break;
-				}
-			}
-			
+			isConnect = sock.isConnected();
+
 			if(isConnect){
+				break;
+			}else{
 				try {
-					inputStream = sock.getInputStream();
-					inputStream.available();
-					
-					out = sock.getOutputStream();
-					isConnect = true; 
-				} catch (IOException e) {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-			}else{
-				//isConnect = false;
 			}
+			time--;
+			if(time==0){
+				isConnect = false;
+				break;
+			}
+		}
+
+		if(isConnect){
+			try {
+				inputStream = sock.getInputStream();
+				inputStream.available();
+
+				out = sock.getOutputStream();
+				isConnect = true; 
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}else{
+			//isConnect = false;
+		}
 		return isConnect;
 	}
 
@@ -185,12 +185,12 @@ private boolean  checkPairing()
 	{
 
 		closeBluetoothDevice();
-		
+
 	}
 	public void closeBluetoothDevice()
 	{
 
-		
+
 		if(!isConnect)return;
 		if(sock!=null){
 			try {
@@ -200,32 +200,32 @@ private boolean  checkPairing()
 				e.printStackTrace();
 			}
 		}
-	
-		
+
+
 		if(inputStream!=null){
 			try {
 				synchronized (inputStream) {
 					inputStream.close();
 				}
-			
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		if(out!=null){
 			try {
 				synchronized (out) {
 					out.close();
 				}
-				
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 		/*
 		if(remotedev!=null){
@@ -236,7 +236,7 @@ private boolean  checkPairing()
 				e.printStackTrace();
 			}	
 		}
-		*/
+		 */
 		inputStream = null;
 		out= null;
 		sock = null;
@@ -251,19 +251,19 @@ private boolean  checkPairing()
 			try {
 				synchronized (out) {
 					out.write(data);
-					
+
 					return len;
 				}
-			
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}catch (NullPointerException e) {
 				// TODO: handle exception
 			}
-			
+
 		}
-		
+
 		return -1;
 	}
 	/*
@@ -277,7 +277,7 @@ private boolean  checkPairing()
 					out.write(data);
 					return 1;
 				}
-			
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -285,7 +285,7 @@ private boolean  checkPairing()
 				// TODO: handle exception
 			}
 		}
-		
+
 		return -1;
 	}
 	/*
@@ -300,8 +300,8 @@ private boolean  checkPairing()
 		if(isConnect){
 			try {
 				synchronized (inputStream) {
-					
-			
+
+
 				while (inputStream.available()<=0){
 					try {
 						Thread.sleep(10);
@@ -309,7 +309,7 @@ private boolean  checkPairing()
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+
 					if(isExit){
 						return -1;
 					}
@@ -318,12 +318,12 @@ private boolean  checkPairing()
 					if(time==0||isQuitRead){
 						Log.e("BT", "isQuitRead" + isQuitRead);
 						Log.e("BT", "time" +time);
-		
+
 						return -2;
 					}
 				}
 				len = inputStream.read(buffer);
-	
+
 				return len;
 				}
 			} catch (IOException e) {
@@ -334,13 +334,13 @@ private boolean  checkPairing()
 				// TODO: handle exception
 			}
 		}
-		
-		
+
+
 		return len;
 	}
-	*/
-	
-	
+	 */
+
+
 	public int readData(byte[] buffer,int timeOut)
 	{
 		isQuitRead = false;
@@ -350,134 +350,134 @@ private boolean  checkPairing()
 		if(isConnect){
 			try {
 				synchronized (inputStream) {
-					
-			
-				while (inputStream.available()<=0){
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+
+
+					while (inputStream.available()<=0){
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						if(isExit){
+							return -1;
+						}
+						time -=10;
+						//Log.e("BT", "time = in while"+ time);
+						if(time==0||isQuitRead){
+							//Log.e("BT", "isQuitRead" + isQuitRead);
+							//Log.e("BT", "time" +time);
+
+							return -2;
+						}
 					}
-					
-					if(isExit){
-						return -1;
-					}
-					time -=10;
-					//Log.e("BT", "time = in while"+ time);
-					if(time==0||isQuitRead){
-						//Log.e("BT", "isQuitRead" + isQuitRead);
-						//Log.e("BT", "time" +time);
-		
-						return -2;
-					}
-				}
-				len = inputStream.read(buffer);
-	
-				return len;
+					len = inputStream.read(buffer);
+
+					return len;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-		//		 closeBluetoothDevice();
+				//		 closeBluetoothDevice();
 			}catch (NullPointerException e) {
 				// TODO: handle exception
 			}
 		}
-		
-		
+
+
 		return len;
 	}
-	
-	//获取蓝牙设备
-			private static  BluetoothDevice  getBluetoothDevice( String remoteMac )
-			{
-				BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();	
-				BluetoothDevice dev = null;
-		
-				if( adapter != null )//硬件支持蓝牙功能
-				{
-					if( !adapter.isEnabled() )//开启蓝牙
-					{
-						adapter.enable();
-						while(  adapter.getState() == BluetoothAdapter.STATE_TURNING_ON
-			    				|| adapter.getState() != BluetoothAdapter.STATE_ON )
-			    		{
-			    			try {
-			    				Thread.sleep( 100 );
-							} catch (Exception e) {
-								e.printStackTrace();
-							}	    			
-			    		}
-					}
-					
-					
-					
-					//获取蓝牙地址
-					Set<BluetoothDevice> devices = adapter.getBondedDevices(); //获取已经配对的蓝牙设备的集合, 如果蓝牙未被打开, 则返回null;
 
-					if(devices.size()>0){
-						
-						Iterator<BluetoothDevice> it = devices.iterator();//从已配对的蓝牙设备集合中选出T5设备
-						BluetoothDevice device = (BluetoothDevice)it.next();
-						remoteMac = device.getAddress();//获取蓝牙地址
-						Log.i("MAC" ,device.getAddress());
-				
-					} 
-					
-					//获取蓝牙地址失败
-					if(remoteMac == null || remoteMac == "")
-					{
-						return dev;
-					}
-					
-				    dev = adapter.getRemoteDevice(remoteMac);
-				    
-					if( adapter.isDiscovering() )//取消扫描，否则匹配会不稳定
-					{
-						adapter.cancelDiscovery();
-					}
-					
-					//如果已配对，先删除
-					int status = dev.getBondState();
-					if( status == BluetoothDevice.BOND_BONDED  )//已经配对了
-					{
-						/*
+	//获取蓝牙设备
+	private static  BluetoothDevice  getBluetoothDevice( String remoteMac )
+	{
+		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();	
+		BluetoothDevice dev = null;
+
+		if( adapter != null )//硬件支持蓝牙功能
+		{
+			if( !adapter.isEnabled() )//开启蓝牙
+			{
+				adapter.enable();
+				while(  adapter.getState() == BluetoothAdapter.STATE_TURNING_ON
+						|| adapter.getState() != BluetoothAdapter.STATE_ON )
+				{
+					try {
+						Thread.sleep( 100 );
+					} catch (Exception e) {
+						e.printStackTrace();
+					}	    			
+				}
+			}
+
+
+
+			//获取蓝牙地址
+			Set<BluetoothDevice> devices = adapter.getBondedDevices(); //获取已经配对的蓝牙设备的集合, 如果蓝牙未被打开, 则返回null;
+
+			if(devices.size()>0){
+
+				Iterator<BluetoothDevice> it = devices.iterator();//从已配对的蓝牙设备集合中选出T5设备
+				BluetoothDevice device = (BluetoothDevice)it.next();
+				remoteMac = device.getAddress();//获取蓝牙地址
+				Log.i("MAC" ,device.getAddress());
+
+			} 
+
+			//获取蓝牙地址失败
+			if(remoteMac == null || remoteMac == "")
+			{
+				return dev;
+			}
+
+			dev = adapter.getRemoteDevice(remoteMac);
+
+			if( adapter.isDiscovering() )//取消扫描，否则匹配会不稳定
+			{
+				adapter.cancelDiscovery();
+			}
+
+			//如果已配对，先删除
+			int status = dev.getBondState();
+			if( status == BluetoothDevice.BOND_BONDED  )//已经配对了
+			{
+				/*
 						try {
 							Bluetooth.removeBond( dev );
 						} catch (Exception e) {
 							e.printStackTrace();
 						}*/
-						return dev;
-					}
-					else if( status == BluetoothDevice.BOND_BONDING )//正在配对
-					{
-						try {
-							Bluetooth.cancelBondProcess( dev );
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					
-					if( dev.getBondState() == BluetoothDevice.BOND_NONE )
-					{
-						try {
-							Bluetooth.createBond( dev );
-						} catch (Exception e) {
-							e.printStackTrace();
-						}				
-					}
-					
-					//mhandler.sendEmptyMessageDelayed( MSG_DETECT_AGAIN, 200 );//200毫秒后检测是否绑定完成
-				}
-			
 				return dev;
 			}
-
-			@Override
-			public void quitRead() {
-				// TODO Auto-generated method stub
-				isQuitRead = true;
+			else if( status == BluetoothDevice.BOND_BONDING )//正在配对
+			{
+				try {
+					Bluetooth.cancelBondProcess( dev );
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-	
+
+			if( dev.getBondState() == BluetoothDevice.BOND_NONE )
+			{
+				try {
+					Bluetooth.createBond( dev );
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+
+			//mhandler.sendEmptyMessageDelayed( MSG_DETECT_AGAIN, 200 );//200毫秒后检测是否绑定完成
+		}
+
+		return dev;
+	}
+
+	@Override
+	public void quitRead() {
+		// TODO Auto-generated method stub
+		isQuitRead = true;
+	}
+
 }

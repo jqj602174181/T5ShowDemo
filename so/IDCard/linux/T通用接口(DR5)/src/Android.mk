@@ -44,7 +44,7 @@ LOCAL_C_INCLUDES := ./ \
 
 
 
- include $(BUILD_SHARED_LIBRARY)     #SO
+include $(BUILD_SHARED_LIBRARY)     #SO
 #include $(BUILD_EXECUTABLE)     	#可执行程序
 #include $(BUILD_STATIC_LIBRARY) 	#静态库
 
