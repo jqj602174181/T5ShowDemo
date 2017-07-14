@@ -9,36 +9,36 @@
 
     <ImageView
         android:id="@+id/iv_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="@dimen/x60"
+        android:layout_height="@dimen/y75"
+        android:layout_marginLeft="@dimen/x5"
+        android:layout_marginTop="@dimen/y10"
         android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
         android:src="@drawable/head" />
 
     <TextView
         android:id="@+id/tv_person_info"
-        android:layout_width="500dp"
+        android:layout_width="@dimen/x250"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="5dp"
-        android:paddingEnd="10dp"
+        android:layout_marginStart="@dimen/x10"
+        android:layout_marginTop="@dimen/y10"
+        android:lineSpacingExtra="@dimen/x3"
+        android:paddingEnd="@dimen/x10"
         android:text="@string/unknow_idcardinfo"
         android:textColor="@color/framework_font_tip"
-        android:textSize="20sp" />
+        android:textSize="@dimen/x8" />
 
     <Button
         android:id="@+id/BTN_READIDCARD"
-        android:layout_width="150dp"
-        android:layout_height="130dp"
-        android:layout_marginLeft="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_width="@dimen/x70"
+        android:layout_height="@dimen/y50"
+        android:layout_marginLeft="@dimen/x8"
         android:background="@drawable/nmnx_btn_selector"
+        android:paddingLeft="@dimen/x3"
+        android:paddingRight="@dimen/x4"
         android:text="读二代证"
         android:textColor="@color/white"
-        android:textSize="28sp" />
+        android:textSize="@dimen/x15" />
 
 </LinearLayout>

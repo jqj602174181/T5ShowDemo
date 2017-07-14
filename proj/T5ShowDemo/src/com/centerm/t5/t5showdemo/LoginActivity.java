@@ -52,8 +52,6 @@ public class LoginActivity extends Activity implements View.OnClickListener,OnMe
 	private FingerData fingerData;
 	private ReadWaitTime readWaitTime;
 
-	private int style = DeviceOperatorData.FINGER;//指纹仪模块
-
 	private String connectSuccess = "连接成功";
 	private String currentState = "未连接";
 	private String connectFail = "连接失败";
@@ -204,29 +202,29 @@ public class LoginActivity extends Activity implements View.OnClickListener,OnMe
 				Toast.makeText(LoginActivity.this, "请先连接设备！", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			String account = accountEdit.getEditableText().toString();
-			String password = passwordEdit.getEditableText().toString();
-			if(TextUtils.isEmpty(account)){
-				Toast.makeText(LoginActivity.this, "帐号不能为空！", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if(TextUtils.isEmpty(password)){
-				Toast.makeText(LoginActivity.this, "密码不能为空！", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if(!account.equals(ACCOUNT)){
-				Toast.makeText(LoginActivity.this, "帐号不对！", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if(!password.equals(PASSWORD)){
-				Toast.makeText(LoginActivity.this, "密码不对！", Toast.LENGTH_SHORT).show();
-				return;
-			}
+//			String account = accountEdit.getEditableText().toString();
+//			String password = passwordEdit.getEditableText().toString();
+//			if(TextUtils.isEmpty(account)){
+//				Toast.makeText(LoginActivity.this, "帐号不能为空！", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//			if(TextUtils.isEmpty(password)){
+//				Toast.makeText(LoginActivity.this, "密码不能为空！", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//			if(!account.equals(ACCOUNT)){
+//				Toast.makeText(LoginActivity.this, "帐号不对！", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//			if(!password.equals(PASSWORD)){
+//				Toast.makeText(LoginActivity.this, "密码不对！", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
 
 			//调用读取指纹仪命令
 			fingerData.style = 1; //指纹特征
 			fingerData.timeOut = "15";
-			sendMessage(style, fingerData, Integer.parseInt(fingerData.timeOut));
+			sendMessage(DeviceOperatorData.FINGER, fingerData, Integer.parseInt(fingerData.timeOut));
 			break;
 		}
 	}

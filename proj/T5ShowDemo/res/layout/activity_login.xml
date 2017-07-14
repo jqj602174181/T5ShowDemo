@@ -11,59 +11,62 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
+        android:layout_marginTop="@dimen/y25" >
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="280dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/x180"
+            android:layout_height="@dimen/y60"
             android:layout_centerHorizontal="true"
             android:background="@drawable/logo" />
 
         <EditText
             android:id="@+id/account"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
+            android:layout_width="@dimen/x150"
+            android:layout_height="@dimen/y35"
             android:layout_below="@+id/logo"
-            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y15"
             android:background="@drawable/edit_white_back"
             android:hint="请输入帐号"
-            android:paddingLeft="5dp"
+            android:paddingLeft="@dimen/x5"
             android:singleLine="true"
-            android:textSize="25sp" />
+            android:textSize="@dimen/x12" />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
+            android:layout_width="@dimen/x150"
+            android:layout_height="@dimen/y35"
             android:layout_below="@+id/account"
-            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y15"
             android:background="@drawable/edit_white_back"
             android:hint="请输入密码"
             android:inputType="textPassword"
-            android:paddingLeft="5dp"
+            android:paddingLeft="@dimen/x5"
             android:singleLine="true"
-            android:textSize="25sp" />
+            android:textSize="@dimen/x12" />
 
         <Button
             android:id="@+id/login_Btn"
-            android:layout_width="320dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/x150"
+            android:layout_height="@dimen/y35"
             android:layout_below="@+id/password"
-            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y35"
             android:background="@drawable/nmnx_btn_selector"
             android:text="登录"
             android:textColor="@color/white"
-            android:textSize="35sp" />
+            android:textSize="@dimen/x20" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/connection_Block"
-        android:layout_width="850dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/x380"
+        android:layout_height="@dimen/y30"
         android:layout_below="@+id/login_Block"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/y20"
         android:background="@drawable/conn_block_back"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
@@ -71,10 +74,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="@dimen/x25"
             android:text="通信方式  :"
             android:textColor="#8b8c8e"
-            android:textSize="25sp" />
+            android:textSize="@dimen/x12" />
 
         <RadioGroup
             android:id="@+id/rg_conn"
@@ -86,54 +89,54 @@
                 android:id="@+id/bt_conn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="@dimen/x10"
                 android:button="@drawable/nmnx_rb_selector"
                 android:checked="true"
                 android:text="蓝牙"
                 android:textColor="#8b8c8e"
-                android:textSize="25sp" />
+                android:textSize="@dimen/x12" />
 
             <RadioButton
                 android:id="@+id/hid_conn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="@dimen/x10"
                 android:button="@drawable/nmnx_rb_selector"
                 android:text="USB HID"
                 android:textColor="#8b8c8e"
-                android:textSize="25sp" />
+                android:textSize="@dimen/x12" />
         </RadioGroup>
 
         <View
-            android:layout_width="2dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="25dp"
+            android:layout_width="@dimen/x1"
+            android:layout_height="@dimen/y20"
+            android:layout_marginLeft="@dimen/x15"
             android:background="#8b8c8e" />
 
         <ImageView
             android:id="@+id/connection_flag"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="25dp"
+            android:layout_width="@dimen/x10"
+            android:layout_height="@dimen/y12"
+            android:layout_marginLeft="@dimen/x15"
             android:background="@drawable/not_conn_flag" />
 
         <TextView
             android:id="@+id/tvBTState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/x10"
             android:text="未连接"
             android:textColor="#8b8c8e"
-            android:textSize="25sp" />
+            android:textSize="@dimen/x12" />
 
         <TextView
             android:id="@+id/bt_conn_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="@dimen/x15"
             android:text="点击连接"
             android:textColor="#fcab0e"
-            android:textSize="25sp" />
+            android:textSize="@dimen/x12" />
     </LinearLayout>
 
 </RelativeLayout>

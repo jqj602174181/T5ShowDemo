@@ -102,7 +102,6 @@ public class IFpDevDriver extends FinancialBase{
 	 		pnDataLen[0] = nBodyLen-2 ;
 
 	 		System.arraycopy(ucBody, 4, szData, 0, nBodyLen -2);
-	 	   
 	 		
 	 		return nStatus;
 	 	}    
@@ -411,6 +410,8 @@ public String[] readFinger(String strCompanyCode, String strTimeout){
 		
 		if(l>0){
 			String str = new String(info,0,info.length).trim();
+			
+			Log.e(TAG, str);
 	
 			if(str.equals(strCompanyCode)){
 				byte[] data = new byte[1024];
@@ -454,7 +455,6 @@ public String[] readFinger(String strCompanyCode, String strTimeout){
 	
 	@Override
 	public Object getTestData(Object object) {
-		// TODO Auto-generated method stub
 		
 		FingerData data = (FingerData)object;
 		String[] strList = null;

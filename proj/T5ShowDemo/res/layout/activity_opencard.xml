@@ -18,48 +18,48 @@
         <include
             android:id="@+id/FRAGMENT_IDCARDINFO"
             android:layout_width="wrap_content"
-            android:layout_height="160dp"
-            android:layout_marginLeft="20dp"
+            android:layout_height="@dimen/y110"
+            android:layout_marginLeft="@dimen/x15"
             layout="@layout/block_idcardinfo_reread" />
 
         <!-- 分隔线 -->
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="@dimen/y2"
+            android:layout_marginTop="@dimen/y3"
             android:background="@drawable/page_space_line" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginTop="@dimen/y10"
             android:orientation="horizontal" >
 
             <TextView
                 style="@style/LabelFixedHStyle1"
-                android:layout_width="150dp"
+                android:layout_width="@dimen/x50"
                 android:text="IC卡:" />
 
             <RadioGroup
                 android:id="@+id/RG_CARDPASS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="@dimen/x15"
                 android:orientation="horizontal" >
 
                 <RadioButton
                     android:id="@+id/RB_Bankbook"
                     style="@style/RBFixedHMRStyle1"
-                    android:layout_width="180dp"
+                    android:layout_width="@dimen/x70"
                     android:checked="true"
                     android:text="接触式IC卡" />
 
                 <RadioButton
                     android:id="@+id/RB_MagneticCard"
                     style="@style/RBFixedHMRStyle1"
-                    android:layout_width="200dp"
+                    android:layout_width="@dimen/x80"
                     android:text="非接触式IC卡" />
             </RadioGroup>
         </LinearLayout>
@@ -67,106 +67,106 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="230dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/x95"
+            android:layout_marginTop="@dimen/y5"
             android:orientation="horizontal" >
 
             <EditText
                 android:id="@+id/EDIT_IC"
                 style="@style/TextEditTextStyle"
-                android:layout_width="300dp"
+                android:layout_width="@dimen/x150"
                 android:inputType="numberDecimal"
                 android:singleLine="true" />
 
             <Button
                 android:id="@+id/BTN_ReadICCard"
                 style="@style/ReadCardBtnStyle"
-                android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="@dimen/y30"
+                android:layout_marginLeft="@dimen/x15"
                 android:text="读IC卡" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginTop="@dimen/y8"
             android:orientation="horizontal" >
 
             <TextView
                 style="@style/LabelFixedHStyle1"
-                android:layout_width="150dp"
+                android:layout_width="@dimen/x50"
                 android:text="磁卡:" />
 
             <EditText
                 android:id="@+id/EDIT_Msg"
                 style="@style/TextEditTextStyle"
-                android:layout_width="300dp"
-                android:layout_marginLeft="30dp"
+                android:layout_width="@dimen/x150"
+                android:layout_marginLeft="@dimen/x15"
                 android:inputType="numberDecimal"
                 android:singleLine="true" />
 
             <Button
                 android:id="@+id/BTN_ReadMsg"
                 style="@style/ReadCardBtnStyle"
-                android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="@dimen/y30"
+                android:layout_marginLeft="@dimen/x15"
                 android:text="读磁卡" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginTop="@dimen/y8"
             android:orientation="horizontal" >
 
             <TextView
                 style="@style/LabelFixedHStyle1"
-                android:layout_width="150dp"
+                android:layout_width="@dimen/x50"
                 android:text="密码键盘:" />
 
             <EditText
                 android:id="@+id/EDIT_Password"
                 style="@style/TextEditTextStyle"
-                android:layout_width="300dp"
-                android:layout_marginLeft="30dp"
+                android:layout_width="@dimen/x150"
+                android:layout_marginLeft="@dimen/x15"
                 android:inputType="numberDecimal"
                 android:singleLine="true" />
 
             <Button
                 android:id="@+id/BTN_ReadPassword"
                 style="@style/ReadCardBtnStyle"
-                android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="@dimen/y30"
+                android:layout_marginLeft="@dimen/x15"
                 android:text="开启密码键盘" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/x35"
+            android:layout_marginTop="@dimen/y8"
             android:orientation="horizontal" >
 
             <TextView
                 style="@style/LabelFixedHStyle1"
-                android:layout_width="150dp"
+                android:layout_width="@dimen/x45"
                 android:text="手写签名:" />
 
             <Button
                 android:id="@+id/BTN_Sign"
                 style="@style/ReadCardBtnStyle"
-                android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="@dimen/y30"
+                android:layout_marginLeft="@dimen/x15"
                 android:text="启动签名" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/x35"
+            android:layout_marginTop="@dimen/y8"
             android:orientation="horizontal"
             android:visibility="gone" >
 
